@@ -30,5 +30,17 @@ describe(endpointUrl, () => {
         expect(Array.isArray(response.body)).toBeTruthy();
         expect(response.body[0].title).toBeDefined();
         expect(response.body[0].done).toBeDefined();
-    });
+    })
+    it("GET by Id " + endpointUrl + ":todoId", async () => {
+        const response = await request(app)
+            .get(endpointUrl + firstTodo._id);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.title).toBe(firstTodo.title);
+        expect(response.body.done).toBe(firstTodo.done);
+    })
+    it("GET todo by id doesn't exist" + endpointUrl + ":todoId", async () => {
+        const response = await request(app)
+            .get(endpointUrl + "65ae6744c409ea65d496275f");
+        expect(response.statusCode).toBe(500);
+    })
 })
